@@ -1,0 +1,21 @@
+id:1#name:Java实战（第2版)#price:59.5#surples:1#publisher:英国#author:艾伦_米克罗夫特#publish:2016-02-04#type:编程类
+id:2#name:HTTP权威指南#price:59.99#surples:2#publisher:美国#author:Anshu Aggarwal#publish:2012-08-27##type:图灵程序设计丛书
+id:3###name:机器学习实战###price:66###surples:3##publisher:山东同济出版社###author:Peter_Harrington###publish:2013-06-05#type:编程类
+id:4###name:流畅的Python###price:87###surples:2###publisher:人民邮电出版社###author:[巴西] Luciano Ramalho###publish:2017-05-08#type:编程类
+id:5###name:JavaScript高级程序设计（第3版###price:69###surples:0###publisher:人民邮电出版社 ###author:Nicholas C.Zakas  ###publish:2012-03-23#type:编程类
+id:6###name:摹宋人文会图 ###price:1000000###surples:1###publisher:无 ###author:姚文瀚 ###publish:1735-04-20 #type:书画类
+id:7###name:计算机科学的基础###price:90###surples:2###publisher:英国 ###author:Jeff Ullman  ###publish:1992-07-01#type:计算机科学
+id:8###name:十王经###price:1000000###surples:1###publisher:无 ###author:未知 ###publish:1600-03-02 #type:经书类
+id:9###name:Java技术手册（第6版）###price:62.41###surples:2###publisher:中国工信出版集团 ###author:Benjamin J Evans,David Flanagan###publish:2015-11-23#type:编程类
+id:10###name:Kotlin从小白到大牛 ###price:29.9###surples:1###publisher:未知 ###author:关东升  ###publish:2018-01-24 #type:编程类
+id:11##name:Spring微服务架构设计（第2版） ###price: 89.00###surples:2###publisher:人民邮电出版社 ###author:拉杰什 · R. V.  ###publish:2020-03-30#type:编程类
+id:12###name:Spring响应式编程 ###price:81.18###surples:4###publisher:中国工信集团 ###author:伊戈尔·洛兹恩斯基 ###publish:2020-04-23 #type:编程类
+id:13###name:Java实践指南###price:38.71###surples:2###publisher:人民邮电出版社 ###author:Phillip Johnson ###publish:2019-09-09 #type:编程类
+id:14###name:Spring Boot实战 ###price:46.61###surples:2###publisher:人民邮电出版社 ###author: Craig Walls###publish:2016-09-05 #type:编程类
+id:15###name:SQL进阶教程 ###price:62.41###surples:1###publisher:人民邮电出版社 ###author:MICK ###publish:2017-11-22 #type:编程类
+id:16###name:MySQL基础教程 ###price:101.91###surples:4###publisher:人民邮电出版社 ###author:西泽梦路 ###publish:2020-01-16 #type:编程类
+id:17###name:30天自制操作系统###price:78.21###surples:4###publisher:人民邮电出版社 ###author:川合秀实 ###publish:2012-08-24 #type:编程类
+id:18###name:AngularJS入门教程###price:0.00###surples:6###publisher:图灵计算机出版社 ###author:严清 , 李诗剑 (译者) ###publish:2013-05-01 #type:编程类
+id:19###name:CSS设计指南（第3版） ###price:46.61###surples:9###publisher:人民邮电出版社###author:Charles Wyke-Smith ###publish:2013-05-06 #type:编程类
+id:20###name:第一行代码——Android（第3版）###price:81.18###surples:1###publisher:人民邮电出版社 ###author:郭霖 ###publish:2020-03-30 #type:编程类
+id:21###name:《活着》###price:130###surples:2###publisher:春风文艺出版社###author:余华 ###publish:2004-04-05 #type:小说类
