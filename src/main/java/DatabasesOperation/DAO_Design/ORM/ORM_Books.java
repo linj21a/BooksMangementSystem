@@ -14,6 +14,7 @@ public class ORM_Books {
     private String author;//作者
     private Date publish;//出版日期
     private String type;//类型
+    public static String[] columnNames = {"编号", "书名", "作者", "价格/元", "出版社", "出版日期", "类型", "余量"};//book的数据
 
     public ORM_Books() {
     }
@@ -86,7 +87,7 @@ public class ORM_Books {
     public String toString() {
         return "Books[id:" + getId() + " name:" + getName() +
                 " author:" + getAuthor() + " surples:" + getSurples()
-                + "\npublisher:" + getPublisher() + " publish:" + getPublish() + " price:" +
+                + "publisher:" + getPublisher() + " publish:" + getPublish() + " price:" +
                 getPrice() + "type" + getType() + "]";
     }
 
@@ -95,7 +96,7 @@ public class ORM_Books {
      *
      * @param res 传入的属性数组
      */
-    public void setBooks(String[] res) {
+    private void setBooks(String[] res) {
         String s;
         int i = 0;
         while (i < res.length) {
@@ -135,5 +136,18 @@ public class ORM_Books {
             }
             i++;
         }
+    }
+    public static String[] booksToArray(ORM_Books books){//将一本书各个字段提取出来，变成一维数组
+        return new String[]{
+                Integer.toString(books.getId()),
+                books.getName(),
+                books.getAuthor(),
+                Float.toString(books.getPrice()),
+                books.getPublisher(),
+                books.getPublish().toString(),
+                books.getType(),
+                Integer.toString(books.getSurples())
+        };
+
     }
 }

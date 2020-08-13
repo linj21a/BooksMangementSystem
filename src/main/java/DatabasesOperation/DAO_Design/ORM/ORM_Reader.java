@@ -9,6 +9,15 @@ public class ORM_Reader {
     private int borrow_day=90;//可借天数
     private int borrow_num=30;//可借书本数
     private String sex;//性别，男女，只能是两个值，man\woman
+    private String life_motto="读万卷书，行万里路！";//人生格言
+
+    public String getLife_motto() {
+        return life_motto;
+    }
+
+    public void setLife_motto(String life_motto) {
+        this.life_motto = life_motto;
+    }
 
     public ORM_Reader() {
     }
@@ -61,6 +70,7 @@ public class ORM_Reader {
                 ", borrow_day=" + borrow_day +
                 ", borrow_num=" + borrow_num +
                 ", sex='" + sex + '\'' +
+                "lifemotto:'"+life_motto+'\''+
                 '}';
     }
 }

@@ -1,7 +1,9 @@
 package GUIModule.Start;
 
 import GUIModule.Factory.GUIFactory;
+import GUIModule.LibrarySourcesGui.LibrarySources;
 import GUIModule.PublishMethodGet.Constant_Size;
+import GUIModule.PublishMethodGet.ImageJPanel;
 import GUIModule.PublishMethodGet.MouseListenerNew;
 import GUIModule.Reader.LogInGUi;
 import GUIModule.Register.UserRegister;
@@ -14,11 +16,11 @@ import java.awt.event.MouseEvent;
  * 图书管理系统的启动界面。
  */
 public class StartGUI {
-    JButton jButton_Admin;
-    JButton jButton_Reader;
-    JButton jButton_Books;
-    JButton jButton_register;
-    private static JFrame jFrame0;
+    private JButton jButton_Admin;
+    private JButton jButton_Reader;
+    private JButton jButton_Books;
+    private JButton jButton_register;
+    public JFrame jFrame0;
 
     public static void main(String[] args) {
         new StartGUI();
@@ -62,24 +64,16 @@ public class StartGUI {
                     setButton(jPanel1);
 
                     //面板3，注册
-                    JLabel l4 = new JLabel("用户注册");
-                    l4.setForeground(Color.BLUE);
                     jButton_register = new JButton();
-                    jButton_register.add(l4);
+                    jButton_register.setText("用户注册");
+                    jButton_register.setForeground(Color.BLUE);
                     jButton_register.setVisible(true);
                     jPanel1.add(jButton_register);
-                 /*   ImageIcon jImage = new ImageIcon("src/main/resources/dog.jpg");
-                    jImage.setImage(jImage.getImage().getScaledInstance(jFrame0.getWidth(), jFrame0.getHeight(),
-                            Image.SCALE_AREA_AVERAGING));*/
-                  // JPanel jPanel3 = new ImageJPanel(jImage, jButton_register);
-                    //JPanel jPanel3 = new JPanel();
-                   // jPanel3.add(jButton_register);
-                  //  jPanel3.setVisible(true);
 
                     //主面板存放面板1、2
                     jPanel.add(jPanel2, BorderLayout.NORTH);
                     jPanel.add(jPanel1, BorderLayout.CENTER);
-                  //  jPanel.add(jPanel3, BorderLayout.SOUTH);
+                    //  jPanel.add(jPanel3, BorderLayout.SOUTH);
                     //将主面板添加到窗体
                     jFrame0.add(jPanel, BorderLayout.NORTH);
 
@@ -93,7 +87,7 @@ public class StartGUI {
                     jFrame0.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     jFrame0.setVisible(true);
                     buttonListen();
-                }else
+                } else
                     jFrame0.setVisible(true);
 
             }
@@ -107,11 +101,17 @@ public class StartGUI {
         jButton_register.addMouseListener(new MouseListenerNew(jButton_register) {//注册按钮
             @Override
             public void mouseClicked(MouseEvent e) {
-                    UserRegister userRegister = GUIFactory.getUserRegister(jFrame0);
-                    userRegister.jFrame1_register.setVisible(true);
+                UserRegister userRegister = GUIFactory.getUserRegister(jFrame0);
+                userRegister.jFrame1_register.setVisible(true);
             }
         });
-        jButton_Books.addMouseListener(new MouseListenerNew(jButton_Books));//查看馆藏资源
+        jButton_Books.addMouseListener(new MouseListenerNew(jButton_Books) {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new LibrarySources(null, jFrame0);
+                jFrame0.setVisible(false);
+            }
+        });//查看馆藏资源
         jButton_Admin.addMouseListener(new MouseListenerNew(jButton_Admin));//管理员登陆
         jButton_Reader.addMouseListener(new MouseListenerNew(jButton_Reader) {//读者登陆按钮
             @Override
@@ -124,19 +124,18 @@ public class StartGUI {
 
     private void setButton(JPanel jPanel) {
         jButton_Admin = new JButton();
-        JLabel l1 = new JLabel("管理员登陆");
-        l1.setForeground(Color.BLUE);
-        jButton_Admin.add(l1);
+        jButton_Admin.setText("管理员登陆");
+        jButton_Admin.setForeground(Color.BLUE);
         jButton_Admin.setVisible(true);
+
         jButton_Reader = new JButton();
-        JLabel l2 = new JLabel("读者登陆");
-        l2.setForeground(Color.BLUE);
-        jButton_Reader.add(l2);
+        jButton_Reader.setText("读者登陆");
+        jButton_Reader.setForeground(Color.BLUE);
         jButton_Reader.setVisible(true);
+
         jButton_Books = new JButton();
-        JLabel l3 = new JLabel("馆藏图书资源");
-        l3.setForeground(Color.BLUE);
-        jButton_Books.add(l3);
+        jButton_Books.setText("馆藏图书资源");
+        jButton_Books.setForeground(Color.BLUE);
         jButton_Books.setVisible(true);
 
 

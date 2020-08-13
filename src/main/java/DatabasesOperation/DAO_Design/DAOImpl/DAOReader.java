@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,12 +88,24 @@ public class DAOReader {
      * @return 返回布尔值表示插入的结果
      */
     public boolean addReader(ORM_Reader reader) {
-        String sql = "insert into reader(id,name,borrow_day,borrow_num,sex) values(:id,:name,:borrow_day,:borrow_num,:sex)";
+        String sql = "insert into reader(id,name,borrow_day,borrow_num,sex,life_motto) values(:id,:name,:borrow_day,:borrow_num,:sex,:life_motto)";
         SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(reader);
         int i =nJDBC.update(sql, sqlParameterSource);
         if(i==0)
             return false;
         return true;//添加完成
+    }
+
+    /**
+     * 更新reader的人生格言
+     * @param reader
+     */
+    public void updateLifeMotto(ORM_Reader reader){
+        String sql = "update reader set life_motto=:life_motto  where name=:name";
+        Map<String,String> params = new HashMap<>();
+        params.put("life_motto",reader.getLife_motto());
+        params.put("name",reader.getName());
+        nJDBC.update(sql,params);
     }
 
 

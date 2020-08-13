@@ -1,5 +1,6 @@
 package GUIModule.Reader;
 
+import DatabasesOperation.DAO_Design.DAOImpl.DAOReader;
 import DatabasesOperation.DAO_Design.DAOImpl.DAOUser;
 import GUIModule.Factory.GUIFactory;
 import GUIModule.PublishMethodGet.Constant_Size;
@@ -10,7 +11,9 @@ import GUIModule.Register.UserRegister;
 import GUIModule.Start.StartGUI;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
+
 
 /**
  * 登陆界面,
@@ -37,8 +40,17 @@ public class LogInGUi {
         jFrame_login.setBounds(Constant_Size.x, Constant_Size.y, Constant_Size.Width, Constant_Size.Height);
 
 
-        jTextField_name = new JTextField("用户名", 10);
-        jTextField_password = new JTextField("密码", 15);
+        //----------------------------今晚修改的
+        JLabel l_name = new JLabel("用户名");
+        JLabel l_password = new JLabel("密 码");
+        SetMethod.setForeGround(l_password);
+        SetMethod.setForeGround(l_name);
+        jTextField_name = new JTextField(15);
+
+        //--------------------------------------
+        jTextField_password = new JPasswordField( 15);
+        // jTextField_password = new JTextField("密码", 15);
+        //jTextField_password.setEchoChar("*")
         SetMethod.setForeGround(jTextField_name);
         SetMethod.setForeGround(jTextField_password);
         jButton_login = new JButton();
@@ -50,21 +62,49 @@ public class LogInGUi {
         SetMethod.setForeGround(jButton_return);
         jButton_register = new JButton();
         jButton_register.setText("先注册");
+        SetMethod.setForeGround(jButton_register);
         JPanel jPanel1 = new JPanel();
+        //--------------
+
+       jPanel1.add(l_name);//新加
+
         jPanel1.add(jTextField_name);
-        jPanel1.add(jTextField_password);
+        //--------
         JPanel jPanel2 = new JPanel();
-        jPanel2.add(jButton_login);
-        jPanel2.add(jButton_return);
-        jPanel2.add(jButton_register);
+
+        jPanel2.add(l_password);
+        jPanel2.add(jTextField_password);
+       /*
+        jPanel1.add(l_password);//新加
+        jPanel1.add(jTextField_password);*/
+
+        JPanel jPanel3 = new JPanel();//按钮是3号面板
+        jPanel3.add(jButton_login);
+        jPanel3.add(jButton_return);
+        jPanel3.add(jButton_register);
         buttonListener();
         jTextFieldListener();
+        JPanel jPanel0 = new JPanel();
+        JLabel title = new JLabel("用户登陆",null,JLabel.CENTER);//设置文本居中
+        title.setForeground(Color.BLUE);
+        title.setFont(new Font("仿宋", Font.BOLD,20));
+        //jLabel.setFont(new java.awt.Font("Dialog", 1, 15));
+        jPanel0.add(title);
+        //JPanel jPanel_login = new JPanel();
+        // 创建一个垂直盒子容器, 把上面 3 个 JPanel 串起来作为内容面板添加到窗口
+        Box vBox = Box.createVerticalBox();
+        vBox.add(jPanel0);//登陆界面标题
+        vBox.add(jPanel1);//1号是用户名
+        vBox.add(jPanel2);//2号是密码
+        vBox.add(jPanel3);
+        JPanel jPanel_main = new JPanel();
+        jPanel_main.add(vBox);
+        //jFrame_login.setContentPane(vBox);
+        jFrame_login.add(jPanel_main);
 
-        JPanel jPanel_login = new JPanel();
-
-        jPanel_login.add(jPanel1);
+     /*   jPanel_login.add(jPanel1);
         jPanel_login.add(jPanel2);
-        jFrame_login.add(jPanel_login);
+        jFrame_login.add(jPanel_login);*/
         jFrame_login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame_login.setVisible(true);
 
@@ -83,8 +123,10 @@ public class LogInGUi {
                 jFrame_login.setVisible(false);
                 if (before_jFrame != null)
                     before_jFrame.setVisible(true);//主界面显示
-                else
-                    new StartGUI();
+                else{
+
+                    before_jFrame = new StartGUI().jFrame0;
+                }
                 UserRegister userRegister = GUIFactory.getUserRegister(before_jFrame);
                 userRegister.jFrame1_register.setVisible(true);
             }
@@ -106,9 +148,10 @@ public class LogInGUi {
                         JOptionPane.showMessageDialog(jFrame_login, "用户名或密码错误！", "Error", JOptionPane.ERROR_MESSAGE);
                         //这个方法是阻塞
                     } else {
-                        //成功登陆
+                        //成功登陆,查找其信息，显示出来
                         // 进入读者的界面信息处
                         //同时退出登陆界面
+                        new ReaderInfo(new DAOReader().readReader(name));
                         jFrame_login.dispose();
                         /////
                     }
@@ -131,8 +174,12 @@ public class LogInGUi {
         });
 
     }
-    private void jTextFieldListener(){
+
+    private void jTextFieldListener() {
         jTextField_name.addMouseListener(new TextMouseListen(jTextField_name));
         jTextField_password.addMouseListener(new TextMouseListen(jTextField_password));
+        jTextField_password.addActionListener(e -> {
+            //不允许输入非字母和非英文符号
+        });
     }
 }

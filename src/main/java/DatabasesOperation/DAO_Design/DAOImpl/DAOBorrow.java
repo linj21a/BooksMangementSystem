@@ -27,33 +27,32 @@ public class DAOBorrow {
         nJDBC = new NamedParameterJdbcTemplate(JDBCUtils.getDatasource());
     }
 
-    public void borrowBook(ORM_Reader reader, ORM_Books book_id) {//当存量为0借不了，就插入不了，抛出异常；是运行时异常，采取了打印处理
+    public void borrowBook(ORM_Reader reader, int book_id) {//当存量为0借不了，就插入不了，抛出异常；是运行时异常，采取了打印处理
         String sql = "insert into borrow(reader_id,book_id,borrow_date,wether_return,return_date) values(:reader_id,:book_id,now(),'no',null)";
         Map<String, Integer> params = new HashMap<>();
         params.put("reader_id", reader.getId());
-        params.put("book_id", book_id.getId());
+        params.put("book_id", book_id);
 
         nJDBC.update(sql, params);//插入，这里可能会触发两个触发器，第一个书的余量为0报错，书成功插入，则该书的余量-1；
 
 
     }
 
-    public void returnBook(ORM_Reader reader, ORM_Books books) {//要还书必须得借了该书。则先执行查询操作
+    public void returnBook(ORM_Reader reader, int books_id) {//要还书必须得借了该书。则先执行查询操作
         Integer[] res = findMyBorrow(reader);
-        int id = books.getId();
         if (res != null)
             for (int i : res) {
-                if (i == id) {//该读者借了该书
+                if (i == books_id) {//该读者借了该书
                     String sql = "delete from borrow where reader_id=:id1 && book_id=:id2";
                     Map<String, Integer> params = new HashMap<>();
                     params.put("id1", reader.getId());
-                    params.put("id2", id);
+                    params.put("id2", books_id);
                     nJDBC.update(sql, params);
 
                     //还书了以后，对应的books的表上该书的剩余量加1
                     sql = "update books set surples=surples+1 where id=:id";
                     Map<String, Integer> params1 = new HashMap<>();
-                    params1.put("id", id);
+                    params1.put("id", books_id);
                     nJDBC.update(sql, params1);
                 }
             }

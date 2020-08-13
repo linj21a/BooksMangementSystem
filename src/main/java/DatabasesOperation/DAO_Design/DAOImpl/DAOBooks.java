@@ -2,13 +2,16 @@ package DatabasesOperation.DAO_Design.DAOImpl;
 
 import DatabasesOperation.DAOImplSpring.DAOImplSpringTemplate;
 import DatabasesOperation.DAO_Design.ORM.ORM_Books;
+import DatabasesOperation.JDBCUtils.JDBCUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import java.io.*;
+import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 /**
  * 实现CRUD_BOOKS
@@ -56,12 +59,12 @@ public class DAOBooks {
             while ((s = buff.readLine()) != null) {
                 String[] res = s.split("#+");
                 ORM_Books books1 = setBooks(res);
-                if(!isExistId(books1.getId()))//不存在才添加
+                if (!isExistId(books1.getId()))//不存在才添加
                 {
                     books.add(setBooks(res));
                 }
-                for(String s1:res)
-                    System.out.print(s1+"+++");
+                for (String s1 : res)
+                    System.out.print(s1 + "+++");
                 System.out.println();
             }
             SqlParameterSource[] params = new BeanPropertySqlParameterSource[books.size()];
@@ -105,11 +108,11 @@ public class DAOBooks {
             books = new ORM_Books();
             String s;
             int i = 0;
-            while ( i < res.length&&res[i].contains(book[i])) {
-                while(res[i].equals(""))//去除空行
-                        i=i+1;
-                s = res[i].substring(book[i].length()+1);//将值取出来
-                s = s.replace(" ","");//去除空格
+            while (i < res.length && res[i].contains(book[i])) {
+                while (res[i].equals(""))//去除空行
+                    i = i + 1;
+                s = res[i].substring(book[i].length() + 1);//将值取出来
+                s = s.replace(" ", "");//去除空格
                 switch (i) {
                     case 0:
                         int id = Integer.parseInt(s);
@@ -164,6 +167,38 @@ public class DAOBooks {
         Map<String, String> params = new HashMap<>();
         params.put("keyword", "%" + keyword + "%");
         return nJDBC.queryForList(sql, params);
+    }
+
+    public static List<ORM_Books> displayBooks() {//展示书本,返回list
+        Connection conn = null;
+        Statement st = null;
+        ResultSet rs = null;
+        List<ORM_Books> list = new ArrayList<>();
+        try {
+            String sql = "select * from books";
+            conn = JDBCUtils.getConnect();//从连接池里面拿连接，不浪费资源
+            st = conn.createStatement();
+
+            rs = st.executeQuery(sql);
+            ORM_Books books;
+            while (rs.next()) {
+                books = new ORM_Books();
+                books.setId(rs.getInt("id"));
+                books.setName(rs.getString("name"));
+                books.setSurples(rs.getInt("surples"));
+                books.setPrice(rs.getFloat("price"));
+                books.setAuthor(rs.getString("author"));
+                books.setPublisher(rs.getString("publisher"));
+                books.setPublish(rs.getDate("publish"));
+                books.setType(rs.getString("type"));
+                list.add(books);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.free(conn, st, rs);
+        }
+        return list;
     }
 
     public ORM_Books findBooksByName(String book_name) {//根据书的名字查看对应的书

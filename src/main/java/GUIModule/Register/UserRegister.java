@@ -45,7 +45,7 @@ public class UserRegister {
             jFrame1_register.setVisible(true);
 
 
-            jTextField_name = new JTextField("用户名(长度0-10)", 10);//使用自定义的单行文本框
+            jTextField_name = new JTextField("用户名(长度0-10)", 15);//使用自定义的单行文本框
             SetMethod.setForeGround(jTextField_name);//设置为蓝色前景
 
 
@@ -63,16 +63,25 @@ public class UserRegister {
             SetMethod.setForeGround(jLabel);
 
 
-            //面板1
-            JPanel jPanel = new JPanel();
-            jPanel.add(jTextField_name);
-            jPanel.add(jTextField__password);
-            jPanel.add(jLabel);
-            jPanel.add(jComboBox_sex);
-            jPanel.setVisible(true);
+            //组件
+           /* JPanel jPanel2 = new JPanel(new BorderLayout());*/
+            JPanel jPanel2_1 = new JPanel();
+            JPanel jPanel2_2 = new JPanel();
+            JPanel jPanel2_3 = new JPanel();
+            jPanel2_1.add(new JLabel("用户名"));
+            jPanel2_1.add(jTextField_name);
+            jPanel2_2.add(new JLabel("密 码"));
+            jPanel2_2.add(jTextField__password);
+            jPanel2_3.add(jLabel);
+            jPanel2_3.add(jComboBox_sex);
+
+           /* jPanel2.add(jPanel2_1,BorderLayout.NORTH);
+            jPanel2.add(jPanel2_2,BorderLayout.CENTER);
+            jPanel2.add(jPanel2_3,BorderLayout.SOUTH);
+            jPanel2.setVisible(true);*/
 
             //面板2
-            JPanel jPanel1 = new JPanel();
+            JPanel jPanel3 = new JPanel(new FlowLayout(FlowLayout.CENTER));//居中对齐
             jButton_save = new JButton();
             jButton_save.setText("确认注册");
             SetMethod.setForeGround(jButton_save);
@@ -82,11 +91,21 @@ public class UserRegister {
             SetMethod.setForeGround(jButton_exit);
 
             buttonListener();
-            jPanel1.add(jButton_save);
-            jPanel1.add(jButton_exit);
-            jFrame1_register.add(jPanel, BorderLayout.NORTH);
+            jPanel3.add(jButton_save);
+            jPanel3.add(jButton_exit);
 
-            jFrame1_register.add(jPanel1, BorderLayout.SOUTH);
+//---------------------------------------
+            // 创建一个垂直盒子容器, 把上面 3 个 JPanel 串起来作为内容面板添加到窗口
+            Box vBox = Box.createVerticalBox();
+            vBox.add(jPanel2_1);
+            vBox.add(jPanel2_2);
+            vBox.add(jPanel2_3);
+            vBox.add(jPanel3);
+//----------------------------
+            jFrame1_register.setContentPane(vBox);
+           // jFrame1_register.add(jPanel2, BorderLayout.NORTH);
+
+           // jFrame1_register.add(jPanel3, BorderLayout.SOUTH);
         } else jFrame1_register.setVisible(true);
 
 
