@@ -45,8 +45,8 @@ public class ReaderInfo {
         int borrow_num = reader.getBorrow_num();
         String life_motto = reader.getLife_motto();
         //查找该读者所借的书
-        Integer[] book_id = new DAOBorrow().findMyBorrow(reader);
-        int num = book_id == null ? 0 : book_id.length;
+       // Integer[] book_id = new DAOBorrow().findMyBorrow(reader);
+        int num = reader.getHasBorrow();//已经借书数目
 
 
         //开始创建界面
@@ -179,31 +179,27 @@ public class ReaderInfo {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // jFrame.setVisible(false);//隐藏我的信息界面
-                if(reader==null){
-                    System.out.println("??");
+                if(reader!=null){
+                    new LibrarySources(reader, jFrame);//进入馆藏图书资源界面，同时将界面的信息传入
+                    // jFrame.setVisible(false);
+                    jFrame.dispose();
                 }
-                new LibrarySources(reader, jFrame);//进入馆藏图书资源界面，同时将界面的信息传入
-               // jFrame.setVisible(false);
-                jFrame.dispose();
-
-
             }
         });
         jButton_return.addMouseListener(new MouseListenerNew(jButton_return) {//还书按钮的监听
             @Override
             public void mouseClicked(MouseEvent e) {
               //  List<ORM_Books> listBooks = displayBooks();//默认展示所有的书-------------------------
-                DAOBorrow daoBorrows = new DAOBorrow();
-                Integer[] ids = daoBorrows.findMyBorrow(reader);//查找reader所借的所有的书的id
+//                DAOBorrow daoBorrows = new DAOBorrow();
+//                Integer[] ids = daoBorrows.findMyBorrow(reader);//查找reader所借的所有的书的id
 
-                if (ids == null || ids.length == 0) {
+                if ( reader.getHasBorrow()==0) {
                     JOptionPane.showMessageDialog(jFrame, "你还没有借书记录！", "提示", JOptionPane.PLAIN_MESSAGE);
                 }else {
+                    Integer[] ids =new DAOBorrow().findMyBorrow(reader);
                     new ReturnBooksGui(reader,jFrame,ids);//进入还书界面，同时将界面的信息传入
-                    jFrame.setVisible(false);//隐藏我的信息界面
+                    jFrame.dispose();//关闭我的信息界面
                 }
-
-
             }
         });
     }

@@ -2,9 +2,6 @@ package DatabasesOperation.DAOImplSpring;
 
 import DatabasesOperation.JDBCUtils.JDBCUtils;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.DataSourceFactory;
-
-import javax.sql.DataSource;
 
 /**
  * 使用SpringTemplate实现各个表ORM对象的CRUD；

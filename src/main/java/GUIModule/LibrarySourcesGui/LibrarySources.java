@@ -34,6 +34,7 @@ public class LibrarySources {
     private JButton jButton_myInfo;//我的信息，如果reader==null，则直接提示先去注册，然后直接返回首页。
     //private String[] columnNames = {"编号", "书名", "作者", "价格/元", "出版社", "出版日期", "类型", "余量"};//book的数据
     private TableRowSorter<TableModel> sorter;//过滤器，表格JTable
+    private  JTable jTable_book;//书的表格
 
     public LibrarySources(ORM_Reader reader, JFrame before_jFrame) {
 
@@ -134,7 +135,7 @@ public class LibrarySources {
             }
         };
         //书籍信息二维表显示
-        JTable jTable_book = new NewJTable(model);
+         jTable_book = new NewJTable(model);
         // sorter = new TableRowSorter<TableModel>(model);
         sorter = new TableRowSorter<>(model);
         jTable_book.setRowSorter(sorter);
@@ -202,13 +203,18 @@ public class LibrarySources {
                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
                             if (choose == JOptionPane.YES_OPTION) {
-                                if (Integer.parseInt(bookData[id_int - 1][7]) > 0)//能借书
+                                DAOBorrow daoBorrow = new DAOBorrow();
+                                if (Integer.parseInt(bookData[id_int - 1][7]) > 0&& !daoBorrow.hasBorrow(reader,id_int))//能借书
                                 {
                                     new DAOBorrow().borrowBook(reader, id_int);//索引和实际的id差1个
-                                    //reader.setBorrow_num(reader.getBorrow_num()+1);//更新原来的reader的已经借的书的值
                                     JOptionPane.showMessageDialog(jFrame, "借书成功！", "借书结果",
                                             JOptionPane.INFORMATION_MESSAGE);
-                                } else JOptionPane.showMessageDialog(jFrame, "对不起，这本书余量为0",
+                                    //借书成功则需要修改对应的剩余量
+                                    Object surples = jTable_book.getValueAt(id_int-1,7);
+                                    int surpled_int = Integer.parseInt(surples.toString());//将其转化为整数
+                                    jTable_book.setValueAt(Integer.toString(surpled_int-1), id_int-1,7);
+
+                                } else JOptionPane.showMessageDialog(jFrame, "对不起，这本书余量为0或者你已经借过该书！",
                                         "Error", JOptionPane.ERROR_MESSAGE);
                             }
                         }
