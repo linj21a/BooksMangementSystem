@@ -1,5 +1,6 @@
 package DatabasesOperation.DAO_Design.DAOImpl;
 
+import DatabasesOperation.DAOImplSpring.DAOImplSpringTemplate;
 import DatabasesOperation.DAO_Design.ORM.ORM_User;
 import DatabasesOperation.JDBCUtils.JDBCUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -23,7 +24,7 @@ public class DAOUser {
 
 
     public DAOUser() {
-        nJDBC = new NamedParameterJdbcTemplate(JDBCUtils.getDatasource());
+        nJDBC = DAOImplSpringTemplate.getJDBC();
     }
 
     public boolean addUser(ORM_User user) {//注册的时候调用,无法设置为管理员！user的isAdmin默认为0

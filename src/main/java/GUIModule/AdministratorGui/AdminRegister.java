@@ -47,9 +47,9 @@ public class AdminRegister {
     JMenuItem exitItem4;
 
 
-   /* public static void main(String[] args) {
+    public static void main(String[] args) {
         new AdminRegister(null, new ORM_User());
-    }*/
+    }
 
     /**
      * 构造管理员登陆以后的界面

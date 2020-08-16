@@ -1,5 +1,6 @@
 package DatabasesOperation.DAO_Design.DAOImpl;
 
+import DatabasesOperation.DAOImplSpring.DAOImplSpringTemplate;
 import DatabasesOperation.DAO_Design.ORM.ORM_Reader;
 import DatabasesOperation.JDBCUtils.JDBCUtils;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -24,7 +25,7 @@ public class DAOBorrow {
     private NamedParameterJdbcTemplate nJDBC;
 
     public DAOBorrow() {
-        nJDBC = new NamedParameterJdbcTemplate(JDBCUtils.getDatasource());
+        nJDBC = DAOImplSpringTemplate.getJDBC();;
     }
 
     public void borrowBook(ORM_Reader reader, int book_id) {//当存量为0借不了，就插入不了，抛出异常；是运行时异常，采取了打印处理

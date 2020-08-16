@@ -1,5 +1,6 @@
 package DatabasesOperation.DAO_Design.DAOImpl;
 
+import DatabasesOperation.DAOImplSpring.DAOImplSpringTemplate;
 import DatabasesOperation.DAO_Design.ORM.ORM_Reader;
 import DatabasesOperation.JDBCUtils.JDBCUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -19,7 +20,7 @@ public class DAOReader {
     private NamedParameterJdbcTemplate nJDBC;
 
     public DAOReader() {
-        this.nJDBC = new NamedParameterJdbcTemplate(JDBCUtils.getDatasource());
+        this.nJDBC = DAOImplSpringTemplate.getJDBC();
     }
 
     //查询自己的信息,因为reader不会重复的，所以只返回一个。
