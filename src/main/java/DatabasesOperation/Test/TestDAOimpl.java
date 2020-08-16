@@ -8,6 +8,8 @@ import GUIModule.PublishMethodGet.RepaintJPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,17 +20,9 @@ import java.util.List;
  */
 
 public class TestDAOimpl {
-    public static void main(String[] args) {
-        JFrame jFrame = new JFrame();
-        jFrame.setBounds(Constant_Size.x,Constant_Size.y,Constant_Size.Width,Constant_Size.Height);
-        JPanel mainJPanel = new RepaintJPanel("src/main/resources/booksLibrary.jpg");
-        mainJPanel.setLayout(new BorderLayout());
-        //Box vBox = Box.createVerticalBox();
-        //  vBox.add(mainJPanel);
-        //  vBox.setOpaque(false);
-        jFrame.add(mainJPanel);
-        jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        jFrame.setVisible(true);
+    /*public static void main(String[] args) throws IOException {
+        DAOBooks daoBooks = new DAOBooks();
+        daoBooks.addBooksByFile(new File("src/main/resources/books.txt"));
 
-    }
+    }*/
 }

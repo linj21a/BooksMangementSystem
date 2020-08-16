@@ -5,7 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * 抽取公共方法变成一个子类
+ * 抽取公共方法变成一个子类，监听器，移动到按钮，按钮变大，离开则变小；
  */
 
 public class MouseListenerNew extends MouseAdapter {

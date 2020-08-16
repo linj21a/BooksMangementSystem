@@ -1,6 +1,7 @@
 package GUIModule.PublishMethodGet;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
 
 public class SetMethod {
     public static void setForeGround(Component component){

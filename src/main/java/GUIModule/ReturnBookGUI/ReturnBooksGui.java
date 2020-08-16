@@ -10,7 +10,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import java.awt.*;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
@@ -89,7 +91,7 @@ public class ReturnBooksGui {
 
         //下面是查找的结果：根据关键字或者作者找出的信息
         //先添加二维表，默认显示全部的书籍信息
-        List<ORM_Books> listBooks = displayBooks();//默认展示所有的书-------------------------
+        List<ORM_Books> listBooks = displayBooks(null);//默认展示所有的书-------------------------
         daoBorrows = new DAOBorrow();
         // Integer[] ids = daoBorrows.findMyBorrow(reader);//查找reader所借的所有的书的id
         bookData = new String[ids.length][];
@@ -130,7 +132,9 @@ public class ReturnBooksGui {
             if (i == 1 || i == 2 || i == 4)
                 jTable_book.getColumnModel().getColumn(i).setPreferredWidth(Constant_Size.Width / 3);//设置列的宽度
         }
+        jTable_book.setBackground(new java.awt.Color(204, 204, 255));
         JScrollPane jScrollPane = new JScrollPane(jTable_book);//添加到滚动栏目里面
+        //jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//垂直滚动栏
         jScrollPane.setVisible(true);
         jScrollPane.setOpaque(false);//------------
 //--------------------------------------表结构完成

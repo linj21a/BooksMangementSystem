@@ -11,14 +11,18 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import java.awt.*;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
 import static DatabasesOperation.DAO_Design.DAOImpl.DAOBooks.displayBooks;
 
 /**
- * 馆藏图书资源、以及借书也是来这里
+ * 馆藏图书资源模块
+ * 游客访问和用户借书
  */
 
 public class LibrarySources {
@@ -35,6 +39,7 @@ public class LibrarySources {
     //private String[] columnNames = {"编号", "书名", "作者", "价格/元", "出版社", "出版日期", "类型", "余量"};//book的数据
     private TableRowSorter<TableModel> sorter;//过滤器，表格JTable
     private  JTable jTable_book;//书的表格
+    private JButton jButton_mainGui;//回到首页按钮
 
     public LibrarySources(ORM_Reader reader, JFrame before_jFrame) {
 
@@ -61,6 +66,7 @@ public class LibrarySources {
         jButton_borrow = new JButton();//借书按钮
         jButton_return = new JButton();//返回上一个界面，主页或者个人信息页面
         jButton_myInfo = new JButton();//个人信息页面，需要判断是否是从主页来的是，则不需要创建。
+        jButton_mainGui = new JButton();//
 
         jButton_keyword.setText("查找");
         jButton_keyword.setForeground(Color.BLUE);
@@ -74,6 +80,9 @@ public class LibrarySources {
         jButton_return.setText("返回上层");
         jButton_return.setForeground(Color.BLUE);
 
+        jButton_mainGui.setText("首页");
+        jButton_mainGui.setForeground(Color.BLUE);
+
 
         jTextField_find = new JTextField("关键字(小于10个字)", 12);
         jTextField_find.setForeground(Color.BLUE);
@@ -82,6 +91,7 @@ public class LibrarySources {
         JPanel jPanel1_2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         jPanel1_1.add(jButton_myInfo);
         jPanel1_1.add(jButton_return);
+        jPanel1_1.add(jButton_mainGui);
         jPanel1_1.setOpaque(false);
         jPanel1_1.setVisible(true);
         JLabel jLabel1 = new JLabel("关键字:");
@@ -113,7 +123,7 @@ public class LibrarySources {
 
         //下面是查找的结果：根据关键字或者作者找出的信息
         //先添加二维表，默认显示全部的书籍信息
-        List<ORM_Books> listBooks = displayBooks();//默认展示所有的书
+        List<ORM_Books> listBooks = displayBooks(null);//默认展示所有的书
         bookData = new String[listBooks.size()][];
         for (int i = 0; i < listBooks.size(); i++) {
             ORM_Books books = listBooks.get(i);
@@ -147,6 +157,7 @@ public class LibrarySources {
                 jTable_book.getColumnModel().getColumn(i).setPreferredWidth(Constant_Size.Width / 3);//设置列的宽度
         }
         JScrollPane jScrollPane = new JScrollPane(jTable_book);//添加到滚动栏目里面
+        jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//垂直滚动栏
         jScrollPane.setVisible(true);
         jScrollPane.setOpaque(false);//------------
 
@@ -257,6 +268,23 @@ public class LibrarySources {
             public void mouseClicked(MouseEvent e) {
                 before_jFrame.setVisible(true);
                 jFrame.dispose();
+            }
+        });
+        jButton_mainGui.addMouseListener(new MouseListenerNew(jButton_mainGui){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                if(reader!=null){ //说明是从主页过来的
+                    int value = JOptionPane.showConfirmDialog(jFrame,"这会导致你退出登陆！是否继续？","提示",
+                            JOptionPane.YES_NO_OPTION);
+                    if(value==JOptionPane.YES_OPTION){
+                        new StartGUI();//直接创建
+                        jFrame.dispose();
+                    }
+                }else{
+                    before_jFrame.setVisible(true);
+                    jFrame.dispose();
+                }
             }
         });
 

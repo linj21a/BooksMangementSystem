@@ -5,12 +5,13 @@ import DatabasesOperation.DAO_Design.DAOImpl.DAOUser;
 import DatabasesOperation.DAO_Design.ORM.ORM_Reader;
 import DatabasesOperation.DAO_Design.ORM.ORM_User;
 import GUIModule.PublishMethodGet.MouseListenerNew;
+import GUIModule.PublishMethodGet.RepaintJPanel;
 import GUIModule.PublishMethodGet.SetMethod;
 import GUIModule.PublishMethodGet.TextMouseListen;
 import GUIModule.Reader.LogInGUi;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
 
@@ -41,8 +42,8 @@ public class UserRegister {
             before_jFrame = jFrame;//将调用者的窗体存起来
             jFrame1_register = new JFrame();
             jFrame1_register.setTitle("用户注册");
-            jFrame1_register.setBounds(jFrame.getX() + jFrame.getWidth() / 4, jFrame.getY() + jFrame.getHeight() / 4, jFrame.getWidth() / 2, jFrame.getHeight() / 4);
-            jFrame1_register.setVisible(true);
+            jFrame1_register.setBounds(jFrame.getX() + jFrame.getWidth() / 4,
+                    jFrame.getY() + jFrame.getHeight() / 4, jFrame.getWidth() / 2, jFrame.getHeight() / 4);
 
 
             jTextField_name = new JTextField("用户名(长度0-10)", 15);//使用自定义的单行文本框
@@ -64,7 +65,6 @@ public class UserRegister {
 
 
             //组件
-           /* JPanel jPanel2 = new JPanel(new BorderLayout());*/
             JPanel jPanel2_1 = new JPanel();
             JPanel jPanel2_2 = new JPanel();
             JPanel jPanel2_3 = new JPanel();
@@ -75,12 +75,9 @@ public class UserRegister {
             jPanel2_3.add(jLabel);
             jPanel2_3.add(jComboBox_sex);
 
-           /* jPanel2.add(jPanel2_1,BorderLayout.NORTH);
-            jPanel2.add(jPanel2_2,BorderLayout.CENTER);
-            jPanel2.add(jPanel2_3,BorderLayout.SOUTH);
-            jPanel2.setVisible(true);*/
 
-            //面板2
+
+            //面板3
             JPanel jPanel3 = new JPanel(new FlowLayout(FlowLayout.CENTER));//居中对齐
             jButton_save = new JButton();
             jButton_save.setText("确认注册");
@@ -94,7 +91,6 @@ public class UserRegister {
             jPanel3.add(jButton_save);
             jPanel3.add(jButton_exit);
 
-//---------------------------------------
             // 创建一个垂直盒子容器, 把上面 3 个 JPanel 串起来作为内容面板添加到窗口
             Box vBox = Box.createVerticalBox();
             vBox.add(jPanel2_1);
@@ -102,11 +98,19 @@ public class UserRegister {
             vBox.add(jPanel2_3);
             vBox.add(jPanel3);
 //----------------------------
-            jFrame1_register.setContentPane(vBox);
-           // jFrame1_register.add(jPanel2, BorderLayout.NORTH);
+            //设置透明度
+            jPanel2_1.setOpaque(false);
+            jPanel2_2.setOpaque(false);
+            jPanel2_3.setOpaque(false);
+            jPanel3.setOpaque(false);
+            vBox.setOpaque(false);
 
-           // jFrame1_register.add(jPanel3, BorderLayout.SOUTH);
-        } else jFrame1_register.setVisible(true);
+            JPanel mainJPanel = new RepaintJPanel("src/main/resources/color.jpg");
+            mainJPanel.add(vBox);
+            jFrame1_register.add(mainJPanel);
+
+        }
+        jFrame1_register.setVisible(true);
 
 
     }

@@ -18,9 +18,9 @@ public class RepaintJPanel extends JPanel {
         img = icon.getImage();
     }
 
-    private RepaintJPanel(ImageIcon icon) {
+    /*private RepaintJPanel(ImageIcon icon) {
         this.icon = icon;
-    }
+    }*/
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

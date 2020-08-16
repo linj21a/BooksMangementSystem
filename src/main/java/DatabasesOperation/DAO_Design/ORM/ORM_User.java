@@ -23,6 +23,7 @@ public class ORM_User {
     public int getIsAdmin() {
         return isAdmin;
     }
+    public void setIsAdmin(int isAdmin){this.isAdmin = isAdmin;}
     public String getPassword() {
         return password;
     }

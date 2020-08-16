@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
-import java.util.Date;
 
 /**
  * 实现CRUD_BOOKS
@@ -47,7 +46,7 @@ public class DAOBooks {
      *
      * @param file 含有books内容的文件
      */
-    public void addBooksByFile(File file) {
+    public void addBooksByFile(File file) throws IOException {
         //文件一行代表一本书，属性之间使用#分割,且用对应的字段名问号值
         //如price:400#name:大英###surples:3。。
         //通过文件，将文件里面的关于书的信息导入。属于批量导入
@@ -63,17 +62,15 @@ public class DAOBooks {
                 {
                     books.add(setBooks(res));
                 }
-                for (String s1 : res)
-                    System.out.print(s1 + "+++");
-                System.out.println();
+              //  for (String s1 : res)
+               //     System.out.print(s1 + "+++");
+               // System.out.println();
             }
             SqlParameterSource[] params = new BeanPropertySqlParameterSource[books.size()];
             for (int i = 0; i < books.size(); i++) {
                 params[i] = new BeanPropertySqlParameterSource(books.get(i));
             }
             addBatchBooks(params);
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             if (buff != null)
                 try {
@@ -161,6 +158,18 @@ public class DAOBooks {
         SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(book);
         nJDBC.update(sql, parameterSource);
     }
+    public void updateBooksBatch(List<ORM_Books> books){
+        String sql =
+                "update books set name=:name,price=:price,surples=:surples,publisher=:publisher,author=:author,publish=:publish,type=:type where id=:id";
+        SqlParameterSource[] parameterSource = new SqlParameterSource[books.size()];
+        int i=0;
+        for(ORM_Books books1:books){
+            parameterSource[i] = new BeanPropertySqlParameterSource(books1);
+            i++;
+        }
+        nJDBC.batchUpdate(sql, parameterSource);
+
+    }
 
     public List<Map<String, Object>> findBooks(String keyword) {//根据关键字查看对应的书
         String sql = "select * from books where name Like :keyword";
@@ -169,17 +178,23 @@ public class DAOBooks {
         return nJDBC.queryForList(sql, params);
     }
 
-    public static List<ORM_Books> displayBooks() {//展示书本,返回list
+    public static List<ORM_Books> displayBooks(String keyword) {//展示书本,返回list
         Connection conn = null;
-        Statement st = null;
+        PreparedStatement ps = null;
         ResultSet rs = null;
         List<ORM_Books> list = new ArrayList<>();
         try {
-            String sql = "select * from books";
             conn = JDBCUtils.getConnect();//从连接池里面拿连接，不浪费资源
-            st = conn.createStatement();
-
-            rs = st.executeQuery(sql);
+            String sql;
+            if(keyword==null){
+                sql = "select * from books";
+                ps = conn.prepareStatement(sql);
+            }else {
+                sql = "select * from books where name like ?";
+                ps = conn.prepareStatement(sql);
+                ps.setString(1,"%"+keyword+"%");
+            }
+            rs = ps.executeQuery();
             ORM_Books books;
             while (rs.next()) {
                 books = new ORM_Books();
@@ -196,7 +211,7 @@ public class DAOBooks {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            JDBCUtils.free(conn, st, rs);
+            JDBCUtils.free(conn, ps, rs);
         }
         return list;
     }
@@ -231,4 +246,26 @@ public class DAOBooks {
         nJDBC.update(sql, params);
 
     }
+    public static int maxId(){
+        Connection conn = null;
+        Statement st = null;
+        ResultSet rs = null;
+        int id = 0;
+        try{
+            String sql = "select max(id) from books";
+            conn = JDBCUtils.getConnect();
+            st = conn.createStatement();
+
+            rs = st.executeQuery(sql);
+            if(rs.next()){
+                id = rs.getInt("max(id)");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            JDBCUtils.free(conn,st,rs);
+        }
+        return id;
+    }
+
 }

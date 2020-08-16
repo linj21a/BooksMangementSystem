@@ -37,7 +37,7 @@ public class DAOBorrow {
         //params.put("return_date",)还书期限为3个月
         if(nJDBC.update(sql, params)!=0){//
             reader.setHasBorrow(reader.getHasBorrow()+1);//已经借书加1
-            new DAOReader().updateReader(reader);
+            new DAOReader().updateReaderHashBorrow(reader);
         }//插入，这里可能会触发两个触发器，第一个书的余量为0报错，书成功插入，则该书的余量-1；
         //将reader的已借书数加1
     }
@@ -89,7 +89,7 @@ public class DAOBorrow {
                        nJDBC.update(sql, params1);
                        //同时已经借书数也要减1；
                        reader.setHasBorrow(reader.getHasBorrow()-1);
-                       new DAOReader().updateReader(reader);
+                       new DAOReader().updateReaderHashBorrow(reader);
                    }
 
 
@@ -109,7 +109,7 @@ public class DAOBorrow {
         int i = nJDBC.update(sql,param);
         //这里需要将借书记录更新
         reader.setHasBorrow(reader.getHasBorrow()-i);
-        new DAOReader().updateReader(reader);
+        new DAOReader().updateReaderHashBorrow(reader);
         //对应的书的id加1
         String sql2 = "update books set surples=surples+1 where id=:id1";
         Map<String,Integer>[] maps =new Map[res.length];

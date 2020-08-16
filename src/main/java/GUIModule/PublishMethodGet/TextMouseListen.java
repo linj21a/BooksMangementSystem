@@ -5,7 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * 将文本按钮的方法抽取
+ * 将文本按钮的方法抽取，鼠标左键一点击则设置空，然后可以利用其他的文本器
  */
 public class TextMouseListen extends MouseAdapter {
     private JTextField jTextField;
@@ -20,4 +20,5 @@ public class TextMouseListen extends MouseAdapter {
             this.jTextField.setText("");
         }
     }
+
 }
